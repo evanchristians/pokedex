@@ -1,31 +1,20 @@
 import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
-import { useEffect, useState } from "react";
-import api from "./api";
 import { Pokemon } from "./api/pokemon";
 import { padleft } from "./common/utils";
+import { SideBar } from "./components/SideBar";
 import TypeBadge from "./components/TypeBadge";
-
-const pokemonAtom = atomWithStorage<Pokemon[]>("pokemon", []);
-
-const useAllPokemonWithData = () => {
-  const [pokemon, setPokemon] = useAtom(pokemonAtom);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    api.pokemon
-      .allWithData()
-      .then(setPokemon)
-      .catch(setError)
-      .finally(() => setLoading(false));
-  }, []);
-  return { pokemon, loading, error };
-};
+import { useAllPokemonWithData } from "./hooks/useAllPokemonWithData";
+import { selectedPokemonAtom } from "./store/pokemon";
 
 const PokeCard = ({ pokemon }: { pokemon: Pokemon }) => {
+  const [_, setSelectedPokemon] = useAtom(selectedPokemonAtom);
   return (
-    <div className="relative px-4 py-6 flex gap-4 flex-col justify-end items-center rounded-3xl bg-white shadow-2xl shadow-slate-300">
+    <div
+      onClick={() => {
+        setSelectedPokemon(pokemon);
+      }}
+      className="relative px-4 py-6 flex gap-4 flex-col justify-end items-center rounded-3xl bg-white shadow-2xl shadow-slate-200"
+    >
       <img
         className="absolute pixelated top-0 -translate-y-1/2 left-1/2 transform -translate-x-1/2"
         src={pokemon.gif}
@@ -48,12 +37,19 @@ const PokeCard = ({ pokemon }: { pokemon: Pokemon }) => {
 function App() {
   const { pokemon, loading, error } = useAllPokemonWithData();
   return (
-    <main className="bg-slate-100 pt-20 grid grid-cols-3 gap-y-20 gap-x-8 px-4">
+    <main className="bg-slate-100 pt-20 px-4 flex flex-col items-center min-h-screen">
       {loading && !pokemon && <p>Loading...</p>}
-      {error && <p>{error.message}</p>}
-      {pokemon.map((p) => (
-        <PokeCard key={p.id} pokemon={p} /> 
-      ))}
+      {error && !pokemon && <p>{error.message}</p>}
+      {pokemon && (
+        <div className="flex gap-10 w-full max-w-screen-lg">
+          <div className="w-full grid grid-cols-3 gap-y-20 gap-x-8 col-span-2">
+            {pokemon.map((p) => (
+              <PokeCard key={p.id} pokemon={p} />
+            ))}
+          </div>
+          <SideBar />
+        </div>
+      )}
     </main>
   );
 }
