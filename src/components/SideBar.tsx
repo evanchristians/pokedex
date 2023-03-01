@@ -16,8 +16,8 @@ const ShowcasePokemon = () => {
   return (
     <div className="sticky top-32 px-4 py-6 flex gap-4 flex-col justify-end items-center rounded-3xl bg-white">
       <img
-        className="absolute max-w-[12rem] top-0 -translate-y-1/2 left-1/2 transform -translate-x-1/2"
-        src={selectedPokemon.lg_image}
+        className="absolute scale-[2.5] pixelated top-0 -translate-y-1/2 left-1/2 transform -translate-x-1/2"
+        src={selectedPokemon.gif}
         alt={selectedPokemon.name}
       />
       <div className="py-10"></div>
