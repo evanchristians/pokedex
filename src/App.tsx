@@ -27,7 +27,7 @@ const PokeCard = ({ pokemon }: { pokemon: Pokemon }) => {
   return (
     <div className="relative px-4 py-6 flex gap-4 flex-col justify-end items-center rounded-3xl bg-white shadow-2xl shadow-slate-300">
       <img
-        className="absolute top-0 -translate-y-1/2 left-1/2 transform -translate-x-1/2"
+        className="absolute pixelated top-0 -translate-y-1/2 left-1/2 transform -translate-x-1/2"
         src={pokemon.gif}
         alt={pokemon.name}
       />
@@ -52,7 +52,7 @@ function App() {
       {loading && !pokemon && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
       {pokemon.map((p) => (
-        <PokeCard key={p.id} pokemon={p} />
+        <PokeCard key={p.id} pokemon={p} /> 
       ))}
     </main>
   );
