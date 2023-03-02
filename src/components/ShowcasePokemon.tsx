@@ -13,7 +13,10 @@ const ShowcasePokemon = () => {
   const [prevPokemon, setPrevPokemon] = useState<Pokemon | null>(null);
 
   useEffect(() => {
-    if (!selectedPokemon) return;
+    if (!selectedPokemon) {
+      setSelectedPokemon(allPokemon[0]);
+      return;
+    };
     setNextPokemon(
       allPokemon.find((p) => Number(p.id) === Number(selectedPokemon.id) + 1) ??
         null
