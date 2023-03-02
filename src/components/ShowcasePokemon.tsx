@@ -5,6 +5,10 @@ import TypeBadge from "./TypeBadge";
 import StatBadge from "./StatBadge";
 import { useEffect, useState } from "react";
 import { Pokemon } from "../api/pokemon";
+import {
+  ArrowRightCircleIcon,
+  ArrowLeftCircleIcon,
+} from "@heroicons/react/24/outline";
 
 const ShowcasePokemon = () => {
   const [selectedPokemon, setSelectedPokemon] = useAtom(selectedPokemonAtom);
@@ -51,7 +55,7 @@ const ShowcasePokemon = () => {
           />
         ))}
       </div>
-      <p className="font-sans text-center text-sm">
+      <p className="font-sans text-center text-sm max-w-xs px-4">
         {selectedPokemon.flavour_text.replace(//g, " ")}
       </p>
       <h2 className="font-bold mt-4 text-sm">STATS</h2>
@@ -60,26 +64,27 @@ const ShowcasePokemon = () => {
           <StatBadge key={stat.stat.name} stat={stat} />
         ))}
       </div>
-      <div className="flex divide-slate-200 divide-x bg-slate-100 w-full mt-4 rounded-2xl font-bold overflow-hidden">
-        {prevPokemon && (
+      <div className="divide-slate-200 divide-x bg-slate-100 grid grid-cols-2 w-full mt-4 rounded-2xl font-bold overflow-hidden">
+        {prevPokemon ? (
           <button
-            className="p-4 flex items-center gap-1 capitalize text-xs w-full transition-colors hover:bg-slate-200"
+            className="py-4 px-2 flex items-center gap-1 capitalize text-xs w-full transition-colors hover:bg-slate-200"
             onClick={() => setSelectedPokemon(prevPokemon)}
           >
+            <ArrowLeftCircleIcon className="w-5 mr-2 text-slate-400" />
             <img
               src={prevPokemon.gif}
               alt={prevPokemon.name}
-              className="max-w-[1.7rem] aspect-square object-contain mr-1"
+              className="max-w-[1.6rem] aspect-square object-contain mr-1"
             />
             {prevPokemon.name}
             <span className="font-normal">
               #{padleft(prevPokemon.id.toString(), 3, "0")}
             </span>
           </button>
-        )}
-        {nextPokemon && (
+        ) : <div></div>}
+        {nextPokemon ? (
           <button
-            className="p-4 flex items-center justify-end gap-1 capitalize text-xs w-full transition-colors hover:bg-slate-200"
+            className="py-4 px-2 flex items-center justify-end gap-1 capitalize text-xs w-full transition-colors hover:bg-slate-200"
             onClick={() => setSelectedPokemon(nextPokemon)}
           >
             <span className="font-normal">
@@ -89,10 +94,11 @@ const ShowcasePokemon = () => {
             <img
               src={nextPokemon.gif}
               alt={nextPokemon.name}
-              className="max-w-[1.7rem] aspect-square object-contain ml-1"
+              className="max-w-[1.6rem] aspect-square object-contain ml-1"
             />
+            <ArrowRightCircleIcon className="w-5 ml-2 text-slate-400" />
           </button>
-        )}
+        ) : <div></div>}
       </div>
     </div>
   );
