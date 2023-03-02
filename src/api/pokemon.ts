@@ -11,6 +11,9 @@ export interface Pokemon {
   name: string;
   image: string;
   lg_image: string;
+  weight: number;
+  height: number;
+  base_experience: number;
   gif: string;
   species: {
     name: string;
@@ -23,6 +26,14 @@ export interface Pokemon {
       url: string;
     };
   }[];
+  stats: {
+    base_stat: number;
+    effort: number;
+    stat: {
+      name: string;
+      url: string;
+    };
+  }[];
   flavour_text: string;
 }
 
@@ -30,7 +41,7 @@ export const get = async (id: string) => {
   const data = (await fetch(`${constants.BASE_URL}/${id}`).then((res) =>
     res.json()
   )) as Pokemon;
-  const { name } = data;
+  const { name, stats, weight, height, base_experience } = data;
   const speciesResponse = await fetch(data.species.url).then((res) =>
     res.json()
   );
@@ -38,16 +49,21 @@ export const get = async (id: string) => {
   return {
     id,
     name,
+    stats,
+    weight,
+    height,
+    base_experience,
     image: `${constants.BASE_IMAGE_URL}/${id}.png`,
     gif: `${constants.BASE_IMAGE_URL}/versions/generation-v/black-white/animated/${id}.gif`,
     lg_image: `${constants.BASE_IMAGE_URL}/other/dream-world/${id}.svg`,
+
     types: data.types.filter(
       (type, index, self) =>
         index === self.findIndex((t) => t.type.name === type.type.name)
     ),
-    flavour_text: speciesResponse.flavor_text_entries.find(
-      (entry: any) => entry.language.name === "en"
-    ).flavor_text.replace("", " "),
+    flavour_text: speciesResponse.flavor_text_entries
+      .find((entry: any) => entry.language.name === "en")
+      .flavor_text.replace("", " "),
   };
 };
 

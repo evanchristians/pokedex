@@ -6,3 +6,5 @@ export const selectedPokemonAtom = atomWithStorage<Pokemon | null>(
   "selectedPokemon",
   null
 );
+export const searchQueryAtom = atomWithStorage<string>("searchQuery", "");
+

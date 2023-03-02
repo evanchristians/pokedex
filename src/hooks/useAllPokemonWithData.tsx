@@ -1,10 +1,11 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useState, useEffect } from "react";
 import api from "../api";
-import { pokemonAtom } from "../store/pokemon";
+import { pokemonAtom, searchQueryAtom } from "../store/pokemon";
 
 export const useAllPokemonWithData = () => {
   const [pokemon, setPokemon] = useAtom(pokemonAtom);
+  const searchQuery = useAtomValue(searchQueryAtom);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -15,5 +16,12 @@ export const useAllPokemonWithData = () => {
       .catch(setError)
       .finally(() => setLoading(false));
   }, []);
-  return { pokemon, loading, error };
+  return {
+    pokemon:
+      searchQuery.length > 0
+        ? pokemon.filter((p) => p.name.includes(searchQuery))
+        : pokemon,
+    loading,
+    error,
+  };
 };
