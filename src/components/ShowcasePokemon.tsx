@@ -12,8 +12,6 @@ const ShowcasePokemon = () => {
   const [nextPokemon, setNextPokemon] = useState<Pokemon | null>(null);
   const [prevPokemon, setPrevPokemon] = useState<Pokemon | null>(null);
 
-  console.log(selectedPokemon);
-
   useEffect(() => {
     if (!selectedPokemon) return;
     setNextPokemon(
