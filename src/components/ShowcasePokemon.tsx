@@ -14,9 +14,11 @@ const ShowcasePokemon = () => {
 
   useEffect(() => {
     if (!selectedPokemon) {
-      setSelectedPokemon(allPokemon[0]);
+      if (allPokemon.length > 0) {
+        setSelectedPokemon(allPokemon[0]);
+      }
       return;
-    };
+    }
     setNextPokemon(
       allPokemon.find((p) => Number(p.id) === Number(selectedPokemon.id) + 1) ??
         null
@@ -25,7 +27,7 @@ const ShowcasePokemon = () => {
       allPokemon.find((p) => Number(p.id) === Number(selectedPokemon.id) - 1) ??
         null
     );
-  }, [selectedPokemon]);
+  }, [selectedPokemon, allPokemon]);
 
   if (!selectedPokemon) return null;
 
@@ -64,7 +66,11 @@ const ShowcasePokemon = () => {
             className="p-4 flex items-center gap-1 capitalize text-xs w-full transition-colors hover:bg-slate-200"
             onClick={() => setSelectedPokemon(prevPokemon)}
           >
-            <img src={prevPokemon.gif} alt={prevPokemon.name} className="max-w-[1.7rem] aspect-square object-contain mr-1" />
+            <img
+              src={prevPokemon.gif}
+              alt={prevPokemon.name}
+              className="max-w-[1.7rem] aspect-square object-contain mr-1"
+            />
             {prevPokemon.name}
             <span className="font-normal">
               #{padleft(prevPokemon.id.toString(), 3, "0")}
@@ -80,7 +86,11 @@ const ShowcasePokemon = () => {
               #{padleft(nextPokemon.id.toString(), 3, "0")}
             </span>
             {nextPokemon.name}
-            <img src={nextPokemon.gif} alt={nextPokemon.name} className="max-w-[1.7rem] aspect-square object-contain ml-1" />
+            <img
+              src={nextPokemon.gif}
+              alt={nextPokemon.name}
+              className="max-w-[1.7rem] aspect-square object-contain ml-1"
+            />
           </button>
         )}
       </div>
