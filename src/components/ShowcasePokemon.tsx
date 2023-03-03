@@ -70,11 +70,11 @@ const ShowcasePokemon = () => {
             className="py-4 px-2 flex items-center gap-1 capitalize text-xs w-full transition-colors hover:bg-slate-200"
             onClick={() => setSelectedPokemon(prevPokemon)}
           >
-            <ArrowLeftCircleIcon className="w-5 mr-2 text-slate-400" />
+            <ArrowLeftCircleIcon className="w-5 mr-1 text-slate-400" />
             <img
               src={prevPokemon.gif}
               alt={prevPokemon.name}
-              className="max-w-[1.6rem] aspect-square object-contain mr-1"
+              className="w-[1.6rem] aspect-square object-contain mr-1"
             />
             {prevPokemon.name}
             <span className="font-normal">
@@ -94,9 +94,9 @@ const ShowcasePokemon = () => {
             <img
               src={nextPokemon.gif}
               alt={nextPokemon.name}
-              className="max-w-[1.6rem] aspect-square object-contain ml-1"
+              className="w-[1.6rem] aspect-square object-contain ml-1"
             />
-            <ArrowRightCircleIcon className="w-5 ml-2 text-slate-400" />
+            <ArrowRightCircleIcon className="w-5 ml-1 text-slate-400" />
           </button>
         ) : <div></div>}
       </div>
